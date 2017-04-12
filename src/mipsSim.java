@@ -6,7 +6,7 @@ import java.io.*;
 public class mipsSim {
     public static void main(String[] args){
 
-        System.out.print("mipsSim - A MIPS Simulator by Aaron R Miller");
+        System.out.println("mipsSim \nv1.0.0 \nA MIPS Simulator by Aaron R Miller");
 
         if(args.length < 1){
             System.out.println("NO ARGUMENTS PASSED \n TERMINATING");
@@ -19,15 +19,18 @@ public class mipsSim {
         int LO;
         int HI;
 
-        mode = args[1];
-        file = args[0];
+        String mode = args[1];
 
-        FileInputStream in = file;
+        try {
+            FileReader fr = new FileReader(args[0]);
+            BufferedReader fin = new BufferedReader(fr);
+
+            String curline = null;
 
 
-
-
-
+        } catch (IOException e){
+                System.out.println("FILE NOT FOUND \n TERMINATING");
+        }
 
     }
 }
