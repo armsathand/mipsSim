@@ -39,25 +39,19 @@ public class mipsSim {
                     for(int i = 0; i < parts.length; i++){
 
                         if(parts[i].equals("[PC]")) {
-                            int placeholder = 0;
-                            PC = placeholder;
-                            nPC = placeholder +4;
+                            PC = stringReader(parts[i+1], 2,0);
+                            nPC = PC+4;
+                            i++;
                         }
 
                         if(parts[i].startsWith("[R")){
-                            int placeholder =0;
-                            int register = Integer.parseInt(parts[i].substring(2,parts[i].length()-2));
-                            R[register] = placeholder;
+                            int register =  Integer.parseInt(parts[i].substring(2,parts[i].length()-2));
+                            R[register] = stringReader(parts[i+1], 2, 0);
+                            i++;
                         }
 
                         if(parts[i].startsWith("[0x") ){
-                            String sub = parts[i].substring(3, parts[i].length()-1);
-                            System.out.println(sub);
-                            long a = Long.parseLong(sub, 16);
-                            System.out.println(a);
-                            int placeholder = 0;
-                            //NOT SAFE!
-                            MEM[(int) a] = placeholder;
+                            MEM[stringReader(parts[i],3, 1)/4] = stringReader(parts[i+1], 2, 0);
                         }
                     }
                 }
@@ -67,5 +61,13 @@ public class mipsSim {
                 System.out.println("FILE NOT FOUND \n TERMINATING");
         }
 
+    }
+
+    public static int stringReader(String read, int shift, int drop){
+        String sub = read.substring(shift, read.length() - drop);
+        System.out.println(sub);
+        Long a = Long.parseLong(sub, 16);
+        System.out.println(a);
+        return a.intValue();
     }
 }
