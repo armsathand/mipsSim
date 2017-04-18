@@ -18,7 +18,7 @@ public class mipsSim {
         int nPC = PC + 4;
         int LO;
         int HI;
-
+        mipsCom mainframe;
         String mode = args[1];
 
         try {

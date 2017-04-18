@@ -9,6 +9,7 @@ public class mipsInstruct {
     int opc;
     int funct;
     int immed;
+
     public mipsInstruct(int instruction){
         inst = instruction;
         opc = instruction >> 24;
