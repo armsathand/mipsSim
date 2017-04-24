@@ -2,7 +2,7 @@
  * Created by Aaron on 4/10/17.
  */
 import java.io.*;
-
+import java.util.Scanner;
 public class mipsSim {
     public static void main(String[] args) {
 
@@ -20,6 +20,8 @@ public class mipsSim {
         int HI;
         mipsCom mainframe;
         String mode = args[1];
+
+        Scanner in = new Scanner(System.in);
 
         try {
 
