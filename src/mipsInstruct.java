@@ -74,35 +74,75 @@ public class mipsInstruct {
     }
     public void beq(){
         //Branch if equal
-
+        if (system.R[a] == system.R[b]){
+            system.advance(immed << 2);
+        } else {
+            system.advance();
+        }
     }
-    public void BGEZ(){
-
+    public void bgez(){
+        if(system.R[a] >= 0){
+            system.advance(immed << 2);
+        } else {
+            system.advance();
+        }
     }
-    public void BGEZAL(){
-
+    public void bgezal(){
+        if(system.R[a] >= 0){
+            system.R[31] = system.nPC + 4;
+            system.advance(immed << 2);
+        } else {
+            system.advance();
+        }
     }
-    public void BGTZ(){
-
+    public void bgtz(){
+        if(system.R[a] > 0){
+            system.advance(immed << 2);
+        } else {
+            system.advance();
+        }
     }
-    public void BLEZ(){
-
+    public void blez(){
+        if (system.R[a] <=0){
+            system.advance(immed << 2);
+        } else {
+            system.advance();
+        }
     }
-    public void BLTZ(){
-
+    public void bltz(){
+        if (system.R[a] < 0 ){
+            system.advance(immed << 2);
+        } else {
+            system.advance();
+        }
     }
-    public void BLTZAL(){
-
+    public void bltzal(){
+        if(system.R[a] < 0){
+            system.R[31] = system.nPC + 4;
+            system.advance(immed << 2);
+        } else {
+            system.advance();
+        }
     }
-    public void BNE(){
-
+    public void bne(){
+        if (system.R[a] != system.R[b] ){
+            system.advance(immed << 2);
+        } else {
+            system.advance();
+        }
     }
     public void div(){
-        system.R[destination] = system.R[a]/system.R[b];
+        system.LO = system.R[a]/system.R[b];
+        system.HI = system.R[a]%system.R[b];
         system.advance();
     }
-    public void J(){
-        system.advance(destination);
+    public void divu(){
+        system.LO = (system.R[a] & 0xFF) / (system.R[b] & 0xFF);
+        system.HI = (system.R[a] & 0xFF) % (system.R[b] & 0xFF);
+        system.advance();
+    }
+    public void j(){
+        system.advance(system.PC & 0xf0000000);
     }
     public void JAL(){
 

@@ -12,13 +12,14 @@ public class mipsSim {
             System.out.println("NO ARGUMENTS PASSED \n TERMINATING");
             return;
         }
+        mipsCom mainframe = new mipsCom(1048576,32,4);
+        mipsInstruct[] program;
         int[] MEM = new int[1048576];
         int[] R = new int[32];
         int PC = 0;
         int nPC = PC + 4;
         int LO;
         int HI;
-        mipsCom mainframe;
         String mode = args[1];
 
         Scanner in = new Scanner(System.in);
