@@ -14,12 +14,6 @@ public class mipsSim {
         }
         mipsCom mainframe = new mipsCom(1048576,32,4);
         mipsInstruct[] program;
-        int[] MEM = new int[1048576];
-        int[] R = new int[32];
-        int PC = 0;
-        int nPC = PC + 4;
-        int LO;
-        int HI;
         String mode = args[1];
 
         Scanner in = new Scanner(System.in);
@@ -42,36 +36,36 @@ public class mipsSim {
                     for (int i = 0; i < parts.length; i++) {
 
                         if (parts[i].equals("[PC]")) {
-                            PC = stringReader(parts[i + 1], 2, 0);
-                            nPC = PC + 4;
+                            mainframe.PC = stringReader(parts[i + 1], 2, 0);
+                            mainframe.nPC = mainframe.PC + 4;
                             i++;
                         }
 
                         if (parts[i].startsWith("[R")) {
                             int register = Integer.parseInt(parts[i].substring(2, parts[i].length() - 2));
-                            R[register] = stringReader(parts[i + 1], 2, 0);
+                            mainframe.R[register] = stringReader(parts[i + 1], 2, 0);
                             i++;
                         }
                             //Need to be able to add more information for cases such as
                             //# Data
                             //[0x00007000]		        0x6e756f43  0x6f742074  0x0a303120  0x00000a00
                         if (parts[i].startsWith("[0x")) {
-                            MEM[stringReader(parts[i], 3, 1) / 4] = stringReader(parts[i + 1], 2, 0);
+                            mainframe.MEM[stringReader(parts[i], 3, 1) / 4] = stringReader(parts[i + 1], 2, 0);
                         }
                     }
                 }
             }
+
         } catch (IOException e) {
             System.out.println("FILE NOT FOUND \n TERMINATING");
-
         }
 
-        while (MEM[PC / 4] != 0) {
-
-           System.out.println( Integer.toBinaryString(MEM[PC/4] >> 24));
-           PC = nPC;
-           nPC = PC+4;
+        while (mainframe.MEM[mainframe.PC / 4] != 0) {
+           System.out.println( Integer.toBinaryString(mainframe.MEM[mainframe.PC/4] >> 24));
+           mainframe.PC = mainframe.nPC;
+           mainframe.nPC = mainframe.PC+4;
         }
+
     }
 
     public static int stringReader(String read, int shift, int drop){
@@ -79,26 +73,4 @@ public class mipsSim {
         Long a = Long.parseLong(sub, 16);
         return a.intValue();
     }
-    public static int Add(int a, int b){
-        return a+b;
-    }
-    public static int Addi(int a, int b){
-        return a+b;
-    }
-    public static int Addiu(int a, int b){
-        return a+b;
-    }
-    public static int Addu(int a, int b){
-        return a+b;
-    }
-    public static int And(int a, int b){
-        return a&b;
-    }
-    public static int Andi(int a, int b){
-        return a&b;
-    }
-    public static boolean Beq(int a, int b){
-        return( a == b);
-    }
-   // public static boolean B
 }
