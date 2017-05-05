@@ -15,38 +15,49 @@ public class mipsInstruct {
     mipsCom system;
 
     public mipsInstruct(int instruction, mipsCom sys){
+        String tempBinary = Long.toBinaryString(instruction| 0x100000000L). substring(1);
+
+        if (tempBinary.length() > 32){
+            tempBinary = tempBinary.substring(31);
+            System.out.println(tempBinary);
+            System.out.println(tempBinary.substring(0,6));
+        }
+
         system = sys;
         inst = instruction;
         opc = instruction >> 24;
+        opc = Integer.parseInt(tempBinary.substring(0,6),2);
+        a = Integer.parseInt(tempBinary.substring(7,11),2);
+        b = Integer.parseInt(tempBinary.substring(12,16),2);
+        destination = Integer.parseInt(tempBinary.substring(19,22),2);
+        immed = Integer.parseInt(tempBinary.substring(15),2);
+        funct = Integer.parseInt(tempBinary.substring(26),2);
+
         if(opc == 0){
             r = true;
             i = false;
             j = false;
-            a = (inst << 5) >> 16 ;
-            b = (inst << 10) >> 11;
-            funct = inst << 24;
-            immed = 0;
         } else if(opc <= 3){
             r = false;
             i = false;
             j = true;
-            funct = 0;
-            immed = 0;
-            a = (inst << 5) >> 16 ;
-            b = (inst << 10) >> 11;
-            destination = inst << 5;
+            destination = Integer.parseInt(tempBinary.substring(5), 2);
         } else {
             r = false;
             i = true;
             j = false;
-            a = (inst << 5) >> 16 ;
-            b = (inst << 10) >> 11;
-            immed = inst << 14;
-            funct = 0;
         }
     }
     public String toString(){
-        return Integer.toBinaryString(inst);
+        StringBuilder info = (new StringBuilder());
+        info.append("Opcode : " + Integer.toBinaryString(opc | 0x40).substring(1) + "\n");
+        info.append(" A : " + Integer.toBinaryString(a| 0x20).substring(1) + "\n");
+        info.append(" B : " + Integer.toBinaryString(b| 0x20).substring(1) + "\n");
+        info.append(" Destination : " + Integer.toBinaryString(destination) + "\n");
+        info.append(" Immediate : " + Integer.toBinaryString(immed) + "\n");
+        info.append(" Function : " + Integer.toBinaryString(funct| 0x40).substring(1) + " \n");
+        info.append(Long.toBinaryString(inst| 0x100000000L). substring(1));
+        return info.toString();
     }
     public void add(){
         // May need to divide by 4

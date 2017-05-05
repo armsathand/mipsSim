@@ -35,6 +35,7 @@ public class mipsSim {
 
                     for (int i = 0; i < parts.length; i++) {
 
+
                         if (parts[i].equals("[PC]")) {
                             mainframe.PC = stringReader(parts[i + 1], 2, 0);
                             mainframe.nPC = mainframe.PC + 4;
@@ -59,11 +60,10 @@ public class mipsSim {
         } catch (IOException e) {
             System.out.println("FILE NOT FOUND \n TERMINATING");
         }
+        mainframe.addInsts();
 
-        while (mainframe.MEM[mainframe.PC / 4] != 0) {
-           System.out.println( Integer.toBinaryString(mainframe.MEM[mainframe.PC/4] >> 24));
-           mainframe.PC = mainframe.nPC;
-           mainframe.nPC = mainframe.PC+4;
+        for(int i = 0; i < mainframe.instructs.length; i++){
+            System.out.println(mainframe.instructs[i]);
         }
 
     }
