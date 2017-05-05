@@ -160,55 +160,55 @@ public class mipsInstruct {
     public void j(){
         system.advance(system.PC & 0xf0000000);
     }
-    public void JAL(){
+    public void jal(){
         system.R[31] = system.nPC;
         system.advance( system.PC & 0xf0000000);
     }
-    public void JR(){
+    public void jr(){
         system.advance(system.R[a]);
     }
-    public void LB(){
+    public void lb(){
 
     }
-    public void LUI(){
+    public void lui(){
         system.R[b] = immed << 16;
         system.advance();
     }
-    public void LW(){
+    public void lw(){
 
     }
-    public void MFHI(){
+    public void mfhi(){
         system.R[destination] = system.HI;
         system.advance();
     }
-    public void MFLO(){
+    public void mflo(){
         system.R[destination] = system.LO;
         system.advance();
     }
-    public void MULT(){
+    public void mult(){
         system.LO = system.R[a] * system.R[b];
         system.advance();
     }
-    public void NOOP(){
+    public void noop(){
         system.advance();
     }
-    public void OR(){
+    public void or(){
         system.R[destination] = system.R[a] | system.R[b];
         system.advance();
     }
-    public void ORI(){
+    public void ori(){
         system.R[b] = system.R[a] | system.R[immed];
         system.advance();
     }
-    public void SLL(){
+    public void sll(){
         system.R[destination] = system.R[b] << system.R[5];
         system.advance();
     }
-    public void SLLV(){
+    public void sllv(){
         system.R[destination] = system.R[b] << system.R[a];
         system.advance();
     }
-    public void SLT(){
+    public void slt(){
         if(system.R[a] < system.R[b]){
             system.R[destination] = 1;
         } else {
@@ -216,7 +216,7 @@ public class mipsInstruct {
         }
         system.advance();
     }
-    public void SLTI(){
+    public void slti(){
         if(system.R[a] < system.R[immed]){
             system.R[b] = 1;
         } else {
@@ -224,7 +224,7 @@ public class mipsInstruct {
         }
         system.advance();
     }
-    public void SLTIU(){
+    public void sltiu(){
         if(system.R[a] < system.R[immed]){
             system.R[b] = 1;
         } else {
@@ -232,7 +232,7 @@ public class mipsInstruct {
         }
         system.advance();
     }
-    public void SLTU(){
+    public void sltu(){
         if(system.R[b] < system.R[a]){
             system.R[destination] = 1;
         } else {
@@ -240,17 +240,17 @@ public class mipsInstruct {
         }
         system.advance();
     }
-    public void SRA(){
+    public void sra(){
         ///NEEDS OTHER WORK TO BE DONE
         system.R[destination] = system.R[b] >> system.R[a];
         system.advance();
     }
-    public void SRL(){
+    public void srl(){
         ///NEEDS OTHER WORK TO BE DONE
         system.R[destination] = system.R[b] >> system.R[a];
         system.advance();
     }
-    public void SRLV(){
+    public void srlv(){
         system.R[destination] = system.R[b] >> system.R[a];
         system.advance();
     }
@@ -264,21 +264,38 @@ public class mipsInstruct {
         system.R[destination] = ia - ib;
         system.advance();
     }
-    public void SW(){
+    public void sw(){
 
+        system.advance();
     }
-    public void SB(){
+    public void sb(){
 
+        system.advance();
     }
-    public void SYSCALL(){
-
-
+    public void syscall(){
+        switch(system.R[2]){
+            case 1:
+                System.out.print(system.R[4]);
+                break;
+            case 2:
+                System.out.print((float) system.R[12]);
+                break;
+            case 3:
+                System.out.print((double) system.R[12]);
+                break;
+            case 4:
+                System.out.print(system.MEM[system.R[4]]);
+                break;
+            case 5:
+                break;
+        }
+        system.advance();
     }
-    public void XOR(){
+    public void xor(){
         system.R[destination] = system.R[a] ^ system.R[b];
         system.advance();
     }
-    public void XORI(){
+    public void xori(){
         system.R[b] = system.R[a] ^ immed;
         system.advance();
    }
