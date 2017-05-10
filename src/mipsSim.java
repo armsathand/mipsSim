@@ -12,11 +12,10 @@ public class mipsSim {
             System.out.println("NO ARGUMENTS PASSED \n TERMINATING");
             return;
         }
-        mipsCom mainframe = new mipsCom(1048576,32,4);
+        Scanner in = new Scanner(System.in);
+        mipsCom mainframe = new mipsCom(1048576,32,4, in);
         mipsInstruct[] program;
         String mode = args[1];
-
-        Scanner in = new Scanner(System.in);
 
         try {
 
@@ -52,6 +51,16 @@ public class mipsSim {
                             //[0x00007000]		        0x6e756f43  0x6f742074  0x0a303120  0x00000a00
                         if (parts[i].startsWith("[0x")) {
                             mainframe.MEM[stringReader(parts[i], 3, 1) / 4] = stringReader(parts[i + 1], 2, 0);
+                            int base = (stringReader(parts[i], 3, 1) / 4)+1;
+                            i++;
+                            while(parts[i+1].startsWith("0x") ){
+                                mainframe.MEM[base] = stringReader(parts[i+1], 2 ,0);
+                                i++;
+                                base++;
+                                if(i+1 >= parts.length){
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -62,9 +71,12 @@ public class mipsSim {
         }
         mainframe.addInsts();
 
-        for(int i = 0; i < mainframe.instructs.length; i++){
+
+      /*  for(int i = 0; i < mainframe.instructs.length; i++){
             System.out.println(mainframe.instructs[i]);
-        }
+        }*/
+
+        mainframe.run(mode.equalsIgnoreCase("debug"));
 
     }
 

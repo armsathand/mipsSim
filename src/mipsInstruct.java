@@ -51,12 +51,12 @@ public class mipsInstruct {
     public String toString(){
         StringBuilder info = (new StringBuilder());
         info.append("Opcode : " + Integer.toBinaryString(opc | 0x40).substring(1) + "\n");
-        info.append(" A : " + Integer.toBinaryString(a| 0x20).substring(1) + "\n");
-        info.append(" B : " + Integer.toBinaryString(b| 0x20).substring(1) + "\n");
-        info.append(" Destination : " + Integer.toBinaryString(destination) + "\n");
-        info.append(" Immediate : " + Integer.toBinaryString(immed) + "\n");
-        info.append(" Function : " + Integer.toBinaryString(funct| 0x40).substring(1) + " \n");
-        info.append(Long.toBinaryString(inst| 0x100000000L). substring(1));
+        info.append(" A : " + a + "\n");
+        info.append(" B : " + b + "\n");
+        info.append(" Destination : " + destination + "\n");
+        info.append(" Immediate : " + immed + "\n");
+        info.append(" Function : " + funct + " \n");
+        info.append(inst);
         return info.toString();
     }
     public void add(){
@@ -168,14 +168,16 @@ public class mipsInstruct {
         system.advance(system.R[a]);
     }
     public void lb(){
-
+        system.R[b] = system.MEM[a];
+        system.advance();
     }
     public void lui(){
         system.R[b] = immed << 16;
         system.advance();
     }
     public void lw(){
-
+        system.R[b] = system.MEM[a];
+        system.advance();
     }
     public void mfhi(){
         system.R[destination] = system.HI;
@@ -197,7 +199,7 @@ public class mipsInstruct {
         system.advance();
     }
     public void ori(){
-        system.R[b] = system.R[a] | system.R[immed];
+        system.R[b] = system.R[a] | immed;
         system.advance();
     }
     public void sll(){
@@ -265,11 +267,11 @@ public class mipsInstruct {
         system.advance();
     }
     public void sw(){
-
+        system.MEM[a] = system.R[b];
         system.advance();
     }
     public void sb(){
-
+        system.MEM[a] = (0xff & b);
         system.advance();
     }
     public void syscall(){
@@ -277,16 +279,24 @@ public class mipsInstruct {
             case 1:
                 System.out.print(system.R[4]);
                 break;
-            case 2:
-                System.out.print((float) system.R[12]);
-                break;
-            case 3:
-                System.out.print((double) system.R[12]);
-                break;
             case 4:
+                int n = system.R[4];
+                StringBuilder sb = new StringBuilder();
+                while(system.MEM[n] != 0){
+                    sb.append("  x ");
+                }
                 System.out.print(system.MEM[system.R[4]]);
                 break;
+            case 10:
+                System.exit(0);
+                break;
             case 5:
+                system.R[2] = system.scn.nextInt();
+                break;
+            case 8:
+                break;
+            case 11:
+                System.out.print(Character.forDigit(system.R[4], 10));
                 break;
         }
         system.advance();
