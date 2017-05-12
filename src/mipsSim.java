@@ -51,8 +51,9 @@ public class mipsSim {
                             //[0x00007000]		        0x6e756f43  0x6f742074  0x0a303120  0x00000a00
                         if (parts[i].startsWith("[0x")) {
                             mainframe.MEM[stringReader(parts[i], 3, 1) / 4] = stringReader(parts[i + 1], 2, 0);
-                            int base = (stringReader(parts[i], 3, 1) / 4)+1;
+                            int base  = stringReader(parts[i], 3, 1) / 4;
                             i++;
+                            base++;
                             while(parts[i+1].startsWith("0x") ){
                                 mainframe.MEM[base] = stringReader(parts[i+1], 2 ,0);
                                 i++;
@@ -85,4 +86,5 @@ public class mipsSim {
         Long a = Long.parseLong(sub, 16);
         return a.intValue();
     }
+
 }

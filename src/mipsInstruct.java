@@ -19,8 +19,8 @@ public class mipsInstruct {
 
         if (tempBinary.length() > 32){
             tempBinary = tempBinary.substring(31);
-            System.out.println(tempBinary);
-            System.out.println(tempBinary.substring(0,6));
+            //System.out.println(tempBinary);
+            //System.out.println(tempBinary.substring(0,6));
         }
 
         system = sys;
@@ -280,12 +280,14 @@ public class mipsInstruct {
                 System.out.print(system.R[4]);
                 break;
             case 4:
-                int n = system.R[4];
+                int n = system.R[4]/4;
+                System.out.print(convertHexToString(Integer.toHexString(system.MEM[n-1])));
                 StringBuilder sb = new StringBuilder();
                 while(system.MEM[n] != 0){
-                    sb.append("  x ");
+                    sb.append(convertHexToString(Integer.toHexString(system.MEM[n])));
+                    n++;
                 }
-                System.out.print(system.MEM[system.R[4]]);
+                System.out.print(sb.toString());
                 break;
             case 10:
                 System.exit(0);
@@ -309,4 +311,18 @@ public class mipsInstruct {
         system.R[b] = system.R[a] ^ immed;
         system.advance();
    }
+    public static String convertHexToString(String hex){
+
+        StringBuilder sb = new StringBuilder();
+        StringBuilder temp = new StringBuilder();
+
+        for( int i=0; i<hex.length()-1; i+=2 ){
+            String output = hex.substring(i, (i + 2));
+            int decimal = Integer.parseInt(output, 16);
+            sb.append((char)decimal);
+            temp.append(decimal);
+        }
+        return new StringBuilder(sb.toString()).reverse().toString();
+    }
+
 }
